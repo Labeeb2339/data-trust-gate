@@ -104,7 +104,7 @@ The application contains a “known-defect demo” that uses only synthetic valu
 npm run check
 ```
 
-The check runs ESLint, TypeScript, 15 detector/parser/report unit tests, a production vinext/Cloudflare Worker build, and six server-render/API integration tests. GitHub Actions runs the same command on Node.js 22.
+The check runs ESLint, TypeScript, 16 detector/parser/report unit tests, a production vinext/Cloudflare Worker build, and six server-render/API integration tests. GitHub Actions runs the same command on Node.js 22.
 
 ## Architecture
 
