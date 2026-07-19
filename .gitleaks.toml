@@ -1,0 +1,11 @@
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Ignore generated and installed dependencies; source and public assets remain scanned."
+paths = [
+  '''(^|[\\/])dist[\\/]''',
+  '''(^|[\\/])node_modules[\\/]''',
+  '''(^|[\\/])\.vinext[\\/]''',
+  '''(^|[\\/])\.wrangler[\\/]'''
+]
