@@ -2,7 +2,9 @@
 
 **An evidence-led release auditor for bounded AI dataset candidates.**
 
-DataTrust Gate accepts a local CSV or flat JSON file, checks a bounded set of parsed rows, and returns a `BLOCK`, `WARN`, or `PASS` decision with masked evidence, practical remediation, stable hashes, and downloadable JSON and Markdown data cards.
+I built DataTrust Gate to inspect a local CSV or flat JSON file and return a
+`BLOCK`, `WARN`, or `PASS` decision with masked evidence, practical remediation,
+stable hashes, and downloadable JSON and Markdown data cards.
 
 It is an independent student engineering prototype. It is not affiliated with or endorsed by the Sarawak Artificial Intelligence Centre, MOSTI, NIST, W3C, or the ICO.
 
