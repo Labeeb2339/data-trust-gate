@@ -1,5 +1,7 @@
 # DataTrust Gate
 
+![DataTrust Gate release-audit visual](public/og.png)
+
 **An evidence-led release auditor for bounded AI dataset candidates.**
 
 I built DataTrust Gate to inspect a local CSV or flat JSON file and return a
@@ -65,6 +67,14 @@ See [docs/PRIVACY.md](docs/PRIVACY.md) for the lifecycle, tested egress paths, a
 
 ## Fixed detector regression suite
 
+![DataTrust Gate fixed detector regression coverage](public/detector-regression.svg)
+
+The figure is generated from the maintained synthetic fixture suite. A filled
+bar means the detector matched a separately declared expected finding; it does
+not represent measured precision, recall, robustness, or coverage of real
+datasets. The clean control and unexpected/missed counts are shown separately
+so a matched finding cannot hide an extra or absent result.
+
 The repository includes fixed synthetic detector-regression fixtures with a clean control, isolated single-fault cases, and a compound-fault case. Expected findings are declared separately from scanner inputs. The suite checks whether maintained examples still trigger the intended rules; it is not a measured accuracy benchmark.
 
 Reproduce it:
@@ -73,6 +83,10 @@ Reproduce it:
 npm run regression
 npm run regression -- --json
 ```
+
+Regenerate the SVG with `npm run evidence:render`. `npm run check` includes
+`npm run evidence:check` and fails when the committed figure no longer matches
+the fixed suite.
 
 The implementation and expected findings are in [lib/regression-suite.ts](lib/regression-suite.ts); exact assertions are in [tests/audit.test.ts](tests/audit.test.ts).
 

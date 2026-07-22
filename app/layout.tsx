@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title,
       description,
       type: "website",
-      images: [{ url: imageUrl, width: 1664, height: 928, alt: "DataTrust Gate — Evidence before release" }],
+      images: [{ url: imageUrl, width: 1659, height: 948, alt: "DataTrust Gate — Evidence before release" }],
     },
     twitter: {
       card: "summary_large_image",
