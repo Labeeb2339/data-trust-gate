@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -34,6 +35,14 @@ test("server-renders the finished release auditor", async () => {
   assert.match(html, /Find the evidence/);
   assert.match(html, /No storage/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
+});
+
+test("social card is a project UI capture without generative provenance", async () => {
+  const socialCard = await readFile(new URL("../public/og.png", import.meta.url));
+  assert.deepEqual([...socialCard.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
+  assert.equal(socialCard.readUInt32BE(16), 1200);
+  assert.equal(socialCard.readUInt32BE(20), 630);
+  assert.doesNotMatch(socialCard.toString("latin1"), /c2pa|trainedAlgorithmicMedia|OpenAI/i);
 });
 
 test("audit route returns a masked, non-stored report", async () => {
