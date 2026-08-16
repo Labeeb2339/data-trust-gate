@@ -1,27 +1,24 @@
-# DataTrust Gate
+## DataTrust Gate: a bounded PII and governance checker for release datasets
 
-![DataTrust Gate release-audit visual](public/og.png)
+This tool checks local CSV or JSON files (flat, no nested trees) and outputs one of
+three decisions — `BLOCK`, `WARN`, or `PASS` — along with masked evidence,
+suggested remediation steps, reproducible content hashes, and downloadable JSON and
+Markdown result files. The application is deliberately simple: it runs in the browser,
+parsing and evaluating the input file without uploading data anywhere; only a fixed‑size JSON payload (no raw rows) leaves the client and lands in `/api/audit` on the same host, where it is stored temporarily just long enough to be processed.
 
-**An evidence-led release auditor for bounded AI dataset candidates.**
+The detector rules are intentionally narrow: Email and Malaysian NRIC patterns, NRIC-adjacent mobile numbers, IPv4 literals, exact record duplicates, near-duplicates by token Jaccard similarity, same-record content across splits, identical feature vectors paired with different labels, class imbalance, missing or unverifiable license/provenance metadata.
 
-I built DataTrust Gate to inspect a local CSV or flat JSON file and return a
-`BLOCK`, `WARN`, or `PASS` decision with masked evidence, practical remediation,
-stable hashes, and downloadable JSON and Markdown data cards.
+This is a student prototype. I did not build it for any organization, certification, or legal
+claim — just as an experiment to demonstrate where data might leak PII or violate
+governance boundaries before training. It is not endorsed by nor affiliated with the Sarawak
+Artificial Intelligence Centre, MOSTI, NIST, W3C, or the ICO. Those external references are cited only for context:
 
-It is an independent student engineering prototype. It is not affiliated with or endorsed by the Sarawak Artificial Intelligence Centre, MOSTI, NIST, W3C, or the ICO.
+- [NIST AI Resource Center](https://airc.nist.gov/) has material on testing, evaluation, verification and validation of ML models;
+- Malaysia's [National Guidelines on AI Governance and Ethics](https://www.mosti.gov.my/wp-content/uploads/2024/09/NATIONAL-GUIDELINES-OF-AIGE-20241118.pdf) emphasises privacy safeguards, transparency, reproducibility and accountability;
+- The [W3C Data Quality Vocabulary](https://www.w3.org/TR/vocab-dqv/) gives a pattern for recording data-quality observations; and
+- [ICO pseudonymisation guidance](https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/anonymisation/pseudonymisation/) distinguishes masking from anonymisation and flags residual re‑identification risk.
 
-## Why this exists
-
-Model evaluation can become unreliable before training starts. Direct identifiers can enter a release, duplicates can overweight examples, related records can cross train/test boundaries, identical features can receive conflicting labels, and usage rights can remain undocumented.
-
-This project makes those risks visible through deterministic, inspectable checks rather than presenting an unexplained “AI quality score.” Its direction is informed by:
-
-- [NIST AI Resource Center](https://airc.nist.gov/) material on operational testing, evaluation, verification, and validation;
-- Malaysia's [National Guidelines on AI Governance and Ethics](https://www.mosti.gov.my/wp-content/uploads/2024/09/NATIONAL-GUIDELINES-OF-AIGE-20241118.pdf), particularly its emphasis on privacy safeguards, transparency, reproducibility, and accountability;
-- the [W3C Data Quality Vocabulary](https://www.w3.org/TR/vocab-dqv/) approach to expressing data-quality observations and measurements; and
-- [ICO pseudonymisation guidance](https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/anonymisation/pseudonymisation/), which distinguishes masking or pseudonymisation from anonymisation and notes residual re-identification risk.
-
-“Informed by” does not mean compliant with, certified by, or formally assessed against those sources.
+"Informed by" here is plain — I looked at those sources when defining the scope. They are not certification or legal obligations for this tool.
 
 ## Implemented checks
 
@@ -38,7 +35,7 @@ This project makes those risks visible through deterministic, inspectable checks
 
 Regex, rule, and statistical checks can produce both false positives and false negatives. They do not determine consent, ownership, fairness, representativeness, fitness for purpose, or legal compliance.
 
-## Privacy and storage boundary
+## Privacy and storage boundary notes
 
 - The selected file is parsed in the browser. Raw file text is not uploaded as a file or stored by the application.
 - Parsed rows remain in React memory until the user clears them, replaces them, navigates away, or closes the page.
@@ -105,7 +102,7 @@ These results describe only the maintained synthetic examples. They are not evid
 
 ## Run locally
 
-Requirements: Node.js 22.13 or newer.
+Requirements: Node.js 22.13 or newer, npm.
 
 ```bash
 npm ci
@@ -120,7 +117,7 @@ The application contains a “known-defect demo” that uses only synthetic valu
 npm run check
 ```
 
-The check runs ESLint, TypeScript, 16 detector/parser/report unit tests, a production vinext/Cloudflare Worker build, and six server-render/API integration tests. GitHub Actions runs the same command on Node.js 22.
+The check runs ESLint, TypeScript, 16 detector/parser/report unit tests, a production vinext/Cloudflare Worker build, and six server-render/API integration tests. GitHub Actions also runs the same command against Node.js 22 in CI.
 
 ## Architecture
 
